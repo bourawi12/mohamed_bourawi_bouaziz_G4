@@ -1,23 +1,31 @@
 import type { PropsWithChildren } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ScreenTemplate(props: PropsWithChildren) {
   const insets = useSafeAreaInsets();
   return (
     <View
-      style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        backgroundColor: 'red',
-        flex: 1,
-      }}
+      style={[
+        styles.container,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}
     >
-      <ScrollView style={{ backgroundColor: 'blue', flex: 1 }}>
-        {props.children}
-      </ScrollView>
+      <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
+});

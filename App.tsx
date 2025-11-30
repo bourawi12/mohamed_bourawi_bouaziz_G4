@@ -1,7 +1,12 @@
-import AppTemplate from './src/templates/AppTemplate';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigation from './src/navigation/AppNavigation';
 
 function App() {
-  return <AppTemplate />;
+  return (
+    <NavigationContainer>
+      <AppNavigation />
+    </NavigationContainer>
+  );
 }
 
 export default App;
