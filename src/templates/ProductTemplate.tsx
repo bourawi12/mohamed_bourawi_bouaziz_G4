@@ -78,9 +78,12 @@ export default function ProductTemplate() {
 
         {/* Text Overlay (Cappuccino) */}
         <View style={styles.textOverlay}>
+            
           <Text style={styles.productName}>Cappuccino</Text>
           <View style={styles.subInfoRow}>
-            <Text style={styles.productSubName}>With Sugar</Text>
+          <Text style={styles.productSubName}>With Sugar</Text>
+          
+           
             <View style={styles.ratingBox}>
             {/*   <MaterialCommunityIcons name="star" size={14} color="#FFFFFF" /> */}
               <Text style={styles.ratingText}>4.8</Text>
@@ -169,7 +172,7 @@ const styles = StyleSheet.create({
   },
   textOverlay: {
     position: "absolute",
-    bottom: 30, // Positioning above the card's top curve
+    bottom: 30, 
     left: 20,
     right: 20,
   },
@@ -182,20 +185,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 4,
+    marginTop: 0,
   },
   productSubName: {
     fontSize: 16,
-    color: "#FFFFFF",
+    color: "#ffffffff",
     opacity: 0.8,
   },
   ratingBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 20,
+    marginBottom: 50,
     // Add a slight border effect to match the image
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.2)",
