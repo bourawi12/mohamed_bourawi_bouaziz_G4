@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     overflow: "hidden", // Important for the ScrollView
   },
   scrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingTop: 30,
     paddingBottom: 20,
   },

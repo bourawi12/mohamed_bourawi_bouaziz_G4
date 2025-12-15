@@ -27,16 +27,12 @@ const CupSizeChip: React.FC<CupSizeChipProps> = ({ label, active, onPress }) => 
 
 const styles = StyleSheet.create({
   chip: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
+    paddingHorizontal: 25,
+    paddingVertical: 8,
+    borderRadius: 25,
     backgroundColor: '#FFFFFF',
-    marginRight: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: -2, height: 10},
-    shadowOpacity: 1,
-    shadowRadius:5,
-    elevation: 5,
+    marginRight: 20,
+    
   },
   chipActive: {
     backgroundColor: '#00582F',
@@ -47,7 +43,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chipText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
     color: '#4B5563',
   },
