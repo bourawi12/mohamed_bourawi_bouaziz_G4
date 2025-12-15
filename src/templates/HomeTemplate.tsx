@@ -1,19 +1,111 @@
-import { PropsWithChildren, useState } from "react";
-import { 
-  Text, 
-  View, 
-  StyleSheet, 
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
   StatusBar,
-  ScrollView 
-} from "react-native";
-import SearchBar from "../components/molecules/SearchBar";
-import CategoryList from "../components/organisms/CategoryList";
-import ProductCard from "../components/molecules/ProductCard";
+  ScrollView,
+  Text,
+} from 'react-native';
+import Header from '../components/organisms/Header';
+import SearchBar from '../components/molecules/SearchBar';
+import CategoryList from '../components/organisms/CategoryList';
+import ProductList from '../components/molecules/ProductList';
+import ProductGrid, { Product } from '../components/molecules/ProductGrid';
+import { TabType } from '../types/TabType';
+import BottomNavigation from '../components/organisms/BottomNavigation';
+/* import BottomNavigation, { TabType } from '../components/organisms/BottomNavigation'; */
 
-export default function HomeTemplate(props: PropsWithChildren) {
+export default function HomeTemplate() {
   const [activeCategory, setActiveCategory] = useState('1');
+  const [activeTab, setActiveTab] = useState<TabType>('home');
+  const [products, setProducts] = useState<Product[]>([
+    {
+      id: '1',
+      name: 'Cappuccino',
+      description: 'With Sugar',
+      price: 50000,
+      image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400',
+      category: '1',
+      isFavorite: false,
+    },
+    {
+      id: '2',
+      name: 'Cappuccino',
+      description: 'With Sugar',
+      price: 50000,
+      image: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400',
+      category: '1',
+      isFavorite: true,
+    },
+    {
+      id: '3',
+      name: 'Cappuccino',
+      description: 'With Sugar',
+      price: 50000,
+      image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400',
+      category: '1',
+      isFavorite: false,
+    },
+    {
+      id: '4',
+      name: 'Cappuccino',
+      description: 'With Sugar',
+      price: 50000,
+      image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400',
+      category: '1',
+      isFavorite: false,
+    },
+  ]);
 
-  // Sample categories data - replace with your actual data
+  const [specialOffers, setSpecialOffers] = useState<Product[]>([
+  {
+    id: '5',
+    name: 'Coffee',
+    description: 'With Sugar',
+    price: 60000,
+    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400',
+    category: '2',
+    isFavorite: false,
+  },
+  {
+    id: '6',
+    name: 'Cappuccino',
+    description: 'With Sugar',
+    price: 60000,
+    image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400',
+    category: '1',
+    isFavorite: true,
+  },
+  {
+    id: '7',
+    name: 'Latte',
+    description: 'Caramel Flavor',
+    price: 55000,
+    image: 'https://images.unsplash.com/photo-1583267746720-87b5f1b9b2f3?w=400',
+    category: '5',
+    isFavorite: false,
+  },
+  {
+    id: '8',
+    name: 'Espresso',
+    description: 'Strong & Hot',
+    price: 50000,
+    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400',
+    category: '3',
+    isFavorite: false,
+  },
+  {
+    id: '9',
+    name: 'Americano',
+    description: 'Classic Black Coffee',
+    price: 45000,
+    image: 'https://images.unsplash.com/photo-1565679594661-ec7c57e9d6e8?w=400',
+    category: '6',
+    isFavorite: false,
+  },
+]);
+
+
   const categories = [
     { id: '1', name: 'Cappuccino' },
     { id: '2', name: 'Coffee' },
@@ -21,42 +113,65 @@ export default function HomeTemplate(props: PropsWithChildren) {
     { id: '4', name: 'Cortado' },
     { id: '5', name: 'Latte' },
     { id: '6', name: 'Americano' },
-    { id: '7', name: 'Mocha' },
-    { id: '8', name: 'Macchiato' },
-    { id: '9', name: 'Flat White' },
-    { id: '10', name: 'Affogato' },
-    { id: '11', name: 'Ristretto' },
-    { id: '12', name: 'Lungo' },
-    { id: '13', name: 'Doppio' },
-    { id: '14', name: 'Turkish' },
-    { id: '15', name: 'Irish' },
-    { id: '16', name: 'Vienna' },
-    { id: '17', name: 'Frappe' },
-    { id: '18', name: 'Cold Brew' },
-    { id: '19', name: 'Nitro' },
-    { id: '20', name: 'Pour Over' },
   ];
 
   const handleCategoryPress = (categoryId: string) => {
     setActiveCategory(categoryId);
-    console.log('Selected category:', categoryId);
+    console.log('Category selected:', categoryId);
+  };
+
+  const handleProductPress = (productId: string) => {
+    console.log('Product pressed:', productId);
+    // Navigate to product detail screen
+  };
+
+  const handleAddToCart = (productId: string) => {
+    console.log('Add to cart:', productId);
+    // Add to cart logic
+  };
+
+  const handleToggleFavorite = (productId: string) => {
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === productId ? { ...p, isFavorite: !p.isFavorite } : p
+      )
+    );
+    setSpecialOffers((prev) =>
+      prev.map((p) =>
+        p.id === productId ? { ...p, isFavorite: !p.isFavorite } : p
+      )
+    );
+  };
+
+  const handleNotificationPress = () => {
+    console.log('Notifications pressed');
+  };
+
+  const handleTabPress = (tab: TabType) => {
+    setActiveTab(tab);
+    console.log('Tab pressed:', tab);
+    // Navigate to different screens based on tab
   };
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
       >
-        {/* Header Section */}
-        <View style={styles.header}>
-          <Text style={styles.greeting}>Good Morning, Yudi</Text>
-        </View>
+        {/* Header */}
+        <Header
+          userName="Yudi"
+          location="Jakarta, Indonesia"
+          onNotificationPress={handleNotificationPress}
+        />
+         
 
         {/* Search Bar */}
-        <View style={styles.searchSection}>
+        <View style={styles.section}>
           <SearchBar />
         </View>
 
@@ -67,14 +182,29 @@ export default function HomeTemplate(props: PropsWithChildren) {
           onCategoryPress={handleCategoryPress}
         />
 
-        {/* Rest of your content goes here */}
-        <View style={styles.content}>
-          <Text style={styles.contentText}>
-            Selected Category: {categories.find(c => c.id === activeCategory)?.name}
-          </Text>
-          <ProductCard onPress={() => console.log('Product Card Pressed')} />
-        </View>
+        {/* Products List - HORIZONTAL SCROLL */}
+        <ProductList
+          products={products}
+          onProductPress={handleProductPress}
+          onAddToCart={handleAddToCart}
+          onToggleFavorite={handleToggleFavorite}
+        />
+
+        {/* Special Offers - VERTICAL 2 COLUMNS */}
+        <ProductGrid
+          title="Special Offer"
+          products={specialOffers}
+          onProductPress={handleProductPress}
+          onAddToCart={handleAddToCart}
+          onToggleFavorite={handleToggleFavorite}
+        />
       </ScrollView>
+
+      {/* Bottom Navigation */}
+      <BottomNavigation
+        activeTab={activeTab}
+        onTabPress={handleTabPress}
+      />
     </View>
   );
 }
@@ -82,31 +212,16 @@ export default function HomeTemplate(props: PropsWithChildren) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#F9FAFB',
   },
   scrollView: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
+  scrollContent: {
+    paddingBottom: 100,
   },
-  greeting: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1F2937',
-  },
-  searchSection: {
+  section: {
     paddingHorizontal: 20,
     marginBottom: 24,
-  },
-  content: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  contentText: {
-    fontSize: 16,
-    color: '#6B7280',
   },
 });

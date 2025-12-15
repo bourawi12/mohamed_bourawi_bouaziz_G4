@@ -34,11 +34,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#FFFFFF',
     marginRight: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: -2, height: 10},
+    shadowOpacity: 1,
+    shadowRadius:5,
+    elevation: 5,
   },
   chipActive: {
-    backgroundColor: '#15803D',
+    backgroundColor: '#00582F',
   },
   chipContent: {
     flexDirection: 'row',
