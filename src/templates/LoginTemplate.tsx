@@ -1,6 +1,6 @@
 import { PropsWithChildren, useRef, useState } from "react";
 import { Text, TextInput, View, StyleSheet, Animated, TouchableOpacity, StatusBar } from "react-native";
-import FormField from "../components/FormField";
+
 
 export default function LoginTemplate(props: PropsWithChildren) {
   const [email, setEmail] = useState("");

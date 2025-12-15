@@ -6,6 +6,7 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/organisms/Header';
 import SearchBar from '../components/molecules/SearchBar';
 import CategoryList from '../components/organisms/CategoryList';
@@ -13,6 +14,7 @@ import ProductList from '../components/molecules/ProductList';
 import ProductGrid, { Product } from '../components/molecules/ProductGrid';
 import { TabType } from '../types/TabType';
 import BottomNavigation from '../components/organisms/BottomNavigation';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 /* import BottomNavigation, { TabType } from '../components/organisms/BottomNavigation'; */
 
 export default function HomeTemplate() {
@@ -153,60 +155,57 @@ export default function HomeTemplate() {
     // Navigate to different screens based on tab
   };
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Header */}
-        <Header
-          userName="Yudi"
-          location="Jakarta, Indonesia"
-          onNotificationPress={handleNotificationPress}
-        />
-         
+ const insets = useSafeAreaInsets();  // Get safe area values
 
-        {/* Search Bar */}
-        <View style={styles.section}>
-          <SearchBar />
-        </View>
-
-        {/* Categories */}
-        <CategoryList
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryPress={handleCategoryPress}
-        />
-
-        {/* Products List - HORIZONTAL SCROLL */}
-        <ProductList
-          products={products}
-          onProductPress={handleProductPress}
-          onAddToCart={handleAddToCart}
-          onToggleFavorite={handleToggleFavorite}
-        />
-
-        {/* Special Offers - VERTICAL 2 COLUMNS */}
-        <ProductGrid
-          title="Special Offer"
-          products={specialOffers}
-          onProductPress={handleProductPress}
-          onAddToCart={handleAddToCart}
-          onToggleFavorite={handleToggleFavorite}
-        />
-      </ScrollView>
-
-      {/* Bottom Navigation */}
-      <BottomNavigation
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
+return (
+  <View style={[styles.container, { paddingTop: insets.top }]}>
+    <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <ScrollView
+      style={styles.scrollView}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={[
+        styles.scrollContent,
+        { paddingBottom: 80 + insets.bottom }  // Adjust '80' to your bottom nav height (measure via debugger or estimate)
+      ]}
+    >
+      {/* Header */}
+      <Header
+        userName="Yudi"
+        location="Jakarta, Indonesia"
+        onNotificationPress={handleNotificationPress}
       />
+      {/* Search Bar */}
+      <View style={styles.section}>
+        <SearchBar />
+      </View>
+      {/* Categories */}
+      <CategoryList
+        categories={categories}
+        activeCategory={activeCategory}
+        onCategoryPress={handleCategoryPress}
+      />
+      {/* Products List - HORIZONTAL SCROLL */}
+      <ProductList
+        products={products}
+        onProductPress={handleProductPress}
+        onAddToCart={handleAddToCart}
+        onToggleFavorite={handleToggleFavorite}
+      />
+      {/* Special Offers - VERTICAL 2 COLUMNS */}
+      <ProductGrid
+        title="Special Offer"
+        products={specialOffers}
+        onProductPress={handleProductPress}
+        onAddToCart={handleAddToCart}
+        onToggleFavorite={handleToggleFavorite}
+      />
+    </ScrollView>
+    {/* Bottom Navigation - Now absolute */}
+    <View style={styles.bottomNavContainer}>
+      <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
-  );
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
@@ -218,10 +217,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 100,
+    paddingBottom: 100,  
   },
   section: {
     paddingHorizontal: 20,
     marginBottom: 24,
+  },
+  bottomNavContainer: { 
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#FFFFFF', 
+    
   },
 });
