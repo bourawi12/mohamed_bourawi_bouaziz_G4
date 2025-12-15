@@ -1,13 +1,12 @@
 import React from 'react';
-import LoginForm from '../components/organisms/LoginForm';
-
+import ScreenTemplate from '../templates/ScreenTemplate';
 import Typography from '../components/atoms/Typography';
 import Container from '../components/atoms/Container';
 import { SignUpFormData } from '../types/SignUpFormData';
 import SignUpForm from '../components/organisms/SignUpForm';
-import Button from '../components/button';
+import Button from '../components/atoms/Button';
 
-export default function SignUpScreen({navigation}:any) {
+export default function SignUpScreen({navigation}: any) {
   const [formData, setFormData] = React.useState<SignUpFormData>({
     email: '',
     password: '',
@@ -28,14 +27,16 @@ export default function SignUpScreen({navigation}:any) {
   };
 
   return (
-    <Container>
-      <Typography variant="h2">Login with your email and password</Typography>
-      <SignUpForm
-        formData={formData}
-        setFormData={setFormData}
-        onSubmit={handleSignUp}
-      />
-      <Button title="go to login page" onPress={() => navigation.navigate('Login')} />
-    </Container>
+    <ScreenTemplate>
+      <Container>
+        <Typography variant="h2">Sign up with your email and password</Typography>
+        <SignUpForm
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleSignUp}
+        />
+        <Button title="go to login page" onPress={() => navigation.navigate('Login')} />
+      </Container>
+    </ScreenTemplate>
   );
 }

@@ -6,9 +6,9 @@ import ScreenTemplate from './ScreenTemplate';
 export default function AppTemplate(props: PropsWithChildren) {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: isDarkMode ? '#000' : '#fff' }}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScreenTemplate>{props.children}</ScreenTemplate>
+  {props.children}
     </SafeAreaProvider>
   );
 }

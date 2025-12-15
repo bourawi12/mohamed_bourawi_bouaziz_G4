@@ -17,7 +17,7 @@ export default function Container({
 }: ContainerProps) {
   return (
     <View
-      style={[styles.base, styles[variant], centered && styles.centered, style]}
+      style={[styles.base, styles[variant], centered && styles.centered, style,{backgroundColor:"red"}]}
       {...props}
     >
       {children}
