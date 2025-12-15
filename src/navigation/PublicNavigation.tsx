@@ -11,7 +11,7 @@ function PublicNavigation() {
     <PublicStack.Navigator initialRouteName="Home">
      
       <PublicStack.Screen name="SignUp" component={SignUpScreen} />
-      <PublicStack.Screen name="Home" component={HomeScreen} />
+      <PublicStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
     </PublicStack.Navigator>
   );
 }
