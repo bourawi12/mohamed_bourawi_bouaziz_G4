@@ -1,45 +1,80 @@
-import { PropsWithChildren, useRef, useState } from "react";
-import { Text, TextInput, View, StyleSheet, Animated, TouchableOpacity, StatusBar } from "react-native";
-import FormField from "../components/FormField";
+import { PropsWithChildren, useState } from "react";
+import { 
+  Text, 
+  View, 
+  StyleSheet, 
+  StatusBar,
+  ScrollView 
+} from "react-native";
 import SearchBar from "../components/molecules/SearchBar";
+import CategoryList from "../components/organisms/CategoryList";
+import ProductCard from "../components/molecules/ProductCard";
 
 export default function HomeTemplate(props: PropsWithChildren) {
- /*  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 5000,
-      useNativeDriver: true,
-    }).start();
-  };
+  const [activeCategory, setActiveCategory] = useState('1');
 
-  const onPressLoginButton = () => {
-    console.log("You tapped the button!");
-    console.log(`Email: ${email}, Password: ${password}`);
-  };
+  // Sample categories data - replace with your actual data
+  const categories = [
+    { id: '1', name: 'Cappuccino' },
+    { id: '2', name: 'Coffee' },
+    { id: '3', name: 'Espresso' },
+    { id: '4', name: 'Cortado' },
+    { id: '5', name: 'Latte' },
+    { id: '6', name: 'Americano' },
+    { id: '7', name: 'Mocha' },
+    { id: '8', name: 'Macchiato' },
+    { id: '9', name: 'Flat White' },
+    { id: '10', name: 'Affogato' },
+    { id: '11', name: 'Ristretto' },
+    { id: '12', name: 'Lungo' },
+    { id: '13', name: 'Doppio' },
+    { id: '14', name: 'Turkish' },
+    { id: '15', name: 'Irish' },
+    { id: '16', name: 'Vienna' },
+    { id: '17', name: 'Frappe' },
+    { id: '18', name: 'Cold Brew' },
+    { id: '19', name: 'Nitro' },
+    { id: '20', name: 'Pour Over' },
+  ];
 
-  const handleForgotPassword = () => {
-    console.log("Navigate to Forgot Password");
+  const handleCategoryPress = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    console.log('Selected category:', categoryId);
   };
-
-  const handleRegister = () => {
-    console.log("Navigate to Register");
-  };
-
-  const handleBack = () => {
-    console.log("Navigate back");
-  }; */
 
   return (
     <View style={styles.container}>
-        {/* la place batterie et temps en haut */}
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffffff" />
-      <Text>Good Morning , Yudi</Text>
-     <SearchBar />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      
+      <ScrollView 
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header Section */}
+        <View style={styles.header}>
+          <Text style={styles.greeting}>Good Morning, Yudi</Text>
+        </View>
 
+        {/* Search Bar */}
+        <View style={styles.searchSection}>
+          <SearchBar />
+        </View>
+
+        {/* Categories */}
+        <CategoryList
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryPress={handleCategoryPress}
+        />
+
+        {/* Rest of your content goes here */}
+        <View style={styles.content}>
+          <Text style={styles.contentText}>
+            Selected Category: {categories.find(c => c.id === activeCategory)?.name}
+          </Text>
+          <ProductCard onPress={() => console.log('Product Card Pressed')} />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -47,131 +82,31 @@ export default function HomeTemplate(props: PropsWithChildren) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffffff",
+    backgroundColor: "#FFFFFF",
+  },
+  scrollView: {
+    flex: 1,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 60,
     paddingBottom: 20,
   },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-  },
-  backButtonText: {
+  greeting: {
     fontSize: 24,
-    color: "#000",
+    fontWeight: 'bold',
+    color: '#1F2937',
   },
-  registerText: {
+  searchSection: {
+    paddingHorizontal: 20,
+    marginBottom: 24,
+  },
+  content: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  contentText: {
     fontSize: 16,
-    color: "#000",
-    fontWeight: "500",
-  },
-  titleSection: {
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-  },
-  title: {
-    fontSize: 42,
-    fontWeight: "bold",
-    color: "#000",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#333",
-    lineHeight: 20,
-    maxWidth: 280,
-  },
-  formSection: {
-    flex: 1,
-    backgroundColor: "#F5F5F5",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingTop: 40,
-  },
-  input: {
-    width: "100%",
-    height: 55,
-    backgroundColor: "#FFF",
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    marginBottom: 15,
-    fontSize: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  forgotPasswordContainer: {
-    alignSelf: "flex-end",
-    marginBottom: 25,
-    marginTop: 5,
-  },
-  forgotPasswordText: {
-    color: "#666",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  signInButton: {
-    width: "100%",
-    height: 55,
-    backgroundColor: "#000",
-    borderRadius: 27.5,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 30,
-  },
-  signInButtonText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  socialButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    height: 55,
-    backgroundColor: "#FFF",
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    marginBottom: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  socialIcon: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#DB4437",
-    marginRight: 15,
-  },
-  facebookIcon: {
-    color: "#1877F2",
-  },
-  socialButtonText: {
-    flex: 1,
-    fontSize: 15,
-    color: "#000",
-    fontWeight: "500",
-  },
-  arrow: {
-    fontSize: 18,
-    color: "#000",
-  },
-  bottomAccent: {
-    height: 80,
-    backgroundColor: "#FDB924",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    marginTop: -30,
+    color: '#6B7280',
   },
 });

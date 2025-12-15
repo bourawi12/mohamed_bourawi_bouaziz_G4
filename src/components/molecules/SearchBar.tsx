@@ -1,12 +1,12 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 
 export default function SearchBar() {
   return (
     <View style={styles.container}>
       <Ionicons name="search" size={22} color="#8AAE9E" />
-<FontAwesome name="search" size={20} color="#8AAE9E" />
+
       <TextInput
         style={styles.input}
         placeholder="Search Coffee ..."
