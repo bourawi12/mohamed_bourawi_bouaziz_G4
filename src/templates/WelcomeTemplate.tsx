@@ -27,7 +27,7 @@ export default function WelcomeScreen() {
       style={styles.container}
     >
       <Image
-        source={require("../../assets/bootsplash/logo.png")}
+        source={require("../../assets/bootsplash/logosss.png")}
         style={styles.image}
       />
 
