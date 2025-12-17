@@ -6,4 +6,7 @@ export interface Product {
   image: string;
   category: string;
   isFavorite: boolean;
+  capsize?: string;
+  sugarLevel?: string;
+  quantity?: number;
 }

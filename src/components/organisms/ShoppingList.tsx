@@ -1,17 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import ProductCard from '../atoms/ProductCard';
+import { View, StyleSheet, FlatList } from 'react-native';
 import ShoppingCard from '../molecules/ShoppingCard';
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  isFavorite: boolean;
-}
+import { Product } from '../../types/Product';
 
 interface ShoppingListProps {
   title?: string;
@@ -30,23 +20,21 @@ const ShoppingList: React.FC<ShoppingListProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      
       <FlatList
-  data={products}
-  keyExtractor={(item) => item.id}
-  renderItem={({ item }) => (
-    <View style={styles.cardWrapper}>
-      <ShoppingCard
-        {...item}
-        onPress={() => onProductPress(item.id)}
-        onAddPress={() => onAddToCart(item.id)}
-        onFavoritePress={() => onToggleFavorite(item.id)}
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.cardWrapper}>
+            <ShoppingCard
+              {...item}
+              onPress={() => onProductPress(item.id)}
+              onAddPress={() => onAddToCart(item.id)}
+              onFavoritePress={() => onToggleFavorite(item.id)}
+            />
+          </View>
+        )}
+        scrollEnabled={false}
       />
-    </View>
-  )}
-  scrollEnabled={false}
-/>
-
     </View>
   );
 };
@@ -55,21 +43,9 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 24,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 16,
-    paddingHorizontal: 20,
+  cardWrapper: {
+    marginHorizontal: 20,
   },
-  row: {
-  paddingHorizontal: 20,
-  justifyContent: 'space-between',
-},
-cardWrapper: {
-  marginVertical: 0,
-  marginHorizontal: 40,
-},
 });
 
 export default ShoppingList;

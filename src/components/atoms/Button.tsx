@@ -17,6 +17,8 @@ type Variant = 'primary' | 'ghost';
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
   variant?: Variant;
+  textStyle?: any;
+  noPadding?: boolean; 
 }
 
 export default function Button({
@@ -24,15 +26,17 @@ export default function Button({
   variant = 'primary',
   disabled,
   style,
+  textStyle,
+  noPadding,
   ...props
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.base, styles[variant], disabled && styles.disabled, style]}
+      style={[styles.base, styles[variant], disabled && styles.disabled, style,noPadding && styles.noPadding,]}
       disabled={disabled}
       {...props}
     >
-      <Text style={[styles.text, styles[`${variant}Text`]]}>{title}</Text>
+      <Text style={[styles.text, styles[`${variant}Text`], textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -64,5 +68,8 @@ const styles = StyleSheet.create({
   },
   ghostText: {
     color: COLORS.primaryDark,
+  },
+   noPadding: {
+    paddingVertical: 0, // 👈 removes extra space
   },
 });

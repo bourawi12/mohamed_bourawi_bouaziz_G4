@@ -11,15 +11,17 @@ import Header from '../components/organisms/Header';
 import SearchBar from '../components/molecules/SearchBar';
 import CategoryList from '../components/organisms/CategoryList';
 import ProductList from '../components/molecules/ProductList';
-import ProductGrid, { Product } from '../components/molecules/ProductGrid';
+import { Product } from '../types/Product';
+
 import { TabType } from '../types/TabType';
 import BottomNavigation from '../components/organisms/BottomNavigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ProductGrid from '../components/molecules/ProductGrid';
 /* import BottomNavigation, { TabType } from '../components/organisms/BottomNavigation'; */
 
 export default function FavoriteTemplate() {
   const [activeCategory, setActiveCategory] = useState('1');
-  const [activeTab, setActiveTab] = useState<TabType>('home');
+  const [activeTab, setActiveTab] = useState<TabType>('favorite');
   const [products, setProducts] = useState<Product[]>([
     {
       id: '1',

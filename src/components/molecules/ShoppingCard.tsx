@@ -15,6 +15,9 @@ interface ShoppingCardProps {
   price: number;
   image: string;
   isFavorite: boolean;
+  capsize?: string;
+  sugarLevel?: string;
+  quantity?: number;
   onAddPress: () => void;
   onFavoritePress: () => void;
   onPress: () => void;
@@ -26,53 +29,58 @@ const ShoppingCard: React.FC<ShoppingCardProps> = ({
   price,
   image,
   isFavorite,
+  capsize,
+  sugarLevel = 'No Sugar',
+  quantity = 1,
   onAddPress,
   onFavoritePress,
   onPress,
 }) => {
   return (
-    <TouchableOpacity >
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}>
-      {/* LEFT: Product Image */}
-      <Image source={{ uri: image }} style={styles.image} />
-
-      {/* RIGHT: Product Info */}
-      <View style={styles.info}>
-        {/* Name + Heart */}
-        <View style={styles.topRow}>
-          <Text style={styles.name} numberOfLines={1}>
-            {name}
+    <View style={styles.card}>
+      {/* LEFT SECTION: Image + Details */}
+      <View style={styles.leftSection}>
+        <Image source={{ uri: image }} style={styles.image} />
+        <View style={styles.detailsBelow}>
+          <Text style={styles.detailText}>
+            Cap Size: <Text style={styles.detailValue}>{capsize || 'Small'}</Text>
           </Text>
-
-          <TouchableOpacity onPress={onFavoritePress}>
-            <Ionicons
-              name={isFavorite ? 'heart' : 'heart-outline'}
-              size={20}
-              color="#EF4444"
-            />
-          </TouchableOpacity>
+          <Text style={styles.detailText}>
+            Level Sugar: <Text style={styles.detailValue}>{sugarLevel}</Text>
+          </Text>
         </View>
+      </View>
 
+      {/* MIDDLE SECTION: Product Info */}
+      <View style={styles.middleSection}>
+        <Text style={styles.name} numberOfLines={1}>
+          {name}
+        </Text>
         <Text style={styles.description}>{description}</Text>
+        <View style={styles.priceRow}>
+          <Text style={styles.currency}>RP</Text>
+          <Text style={styles.price}>{price.toLocaleString('id-ID')}</Text>
+        </View>
+      </View>
 
-        {/* Price + Add */}
-        <View style={styles.bottomRow}>
-          <View>
-            <Text style={styles.currency}>RP</Text>
-            <Text style={styles.price}>
-              {price.toLocaleString('id-ID')}
-            </Text>
-          </View>
+      {/* RIGHT SECTION: Favorite + Quantity */}
+      <View style={styles.rightSection}>
+        <TouchableOpacity onPress={onFavoritePress}>
+          <Ionicons
+            name={isFavorite ? 'heart' : 'heart-outline'}
+            size={24}
+            color="#EF4444"
+          />
+        </TouchableOpacity>
 
+        <View style={styles.quantityContainer}>
+          <Text style={styles.quantity}>{quantity}</Text>
           <TouchableOpacity style={styles.addButton} onPress={onAddPress}>
-            <Ionicons name="add" size={18} color="#FFFFFF" />
+            <Ionicons name="add" size={20} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
       </View>
-     
-    </TouchableOpacity>
-    <Text>ssss</Text>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -81,9 +89,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    padding: 12,
-    marginHorizontal: 5,
-    marginBottom: 10,
+    padding: 16,
+    marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -91,48 +98,60 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
 
+  leftSection: {
+    marginRight: 16,
+  },
+
   image: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
     borderRadius: 12,
     resizeMode: 'cover',
-    marginRight: 12,
   },
 
-  info: {
+  detailsBelow: {
+    marginTop: 8,
+  },
+
+  detailText: {
+    fontSize: 11,
+    color: '#6B7280',
+    marginBottom: 2,
+  },
+
+  detailValue: {
+    fontWeight: '600',
+    color: '#1F2937',
+  },
+
+  middleSection: {
     flex: 1,
-    justifyContent: 'space-between',
-  },
-
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 4,
   },
 
   name: {
     fontSize: 16,
     fontWeight: '600',
     color: '#1F2937',
-    flex: 1,
-    marginRight: 8,
+    marginBottom: 4,
   },
 
   description: {
     fontSize: 12,
     color: '#9CA3AF',
-    marginVertical: 4,
+    marginBottom: 8,
   },
 
-  bottomRow: {
+  priceRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'baseline',
   },
 
   currency: {
-    fontSize: 10,
+    fontSize: 11,
     color: '#1F2937',
+    marginRight: 2,
   },
 
   price: {
@@ -141,11 +160,28 @@ const styles = StyleSheet.create({
     color: '#1F2937',
   },
 
+  rightSection: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+  },
+
+  quantityContainer: {
+    alignItems: 'center',
+    gap: 8,
+  },
+
+  quantity: {
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#1F2937',
+  },
+
   addButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#00512C',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#00582F',
     justifyContent: 'center',
     alignItems: 'center',
   },

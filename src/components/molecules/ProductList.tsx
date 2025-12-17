@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import ProductCard from '../atoms/ProductCard';
+import { Product } from '../../types/Product';
 
-export interface Product {
+/* export interface Product {
   id: string;
   name: string;
   description: string;
@@ -10,7 +11,7 @@ export interface Product {
   image: string;
   category: string;
   isFavorite: boolean;
-}
+} */
 
 interface ProductListProps {
   products: Product[];

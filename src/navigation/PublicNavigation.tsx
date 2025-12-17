@@ -5,18 +5,45 @@ import HomeScreen from '../screens/HomeScreen';
 import ProductScreen from '../screens/ProductScreen';
 import FavoriteTemplateScreen from '../screens/FavoriteTemplateScreen';
 import CartScreen from '../screens/CartScreen';
-const PublicStack = createNativeStackNavigator();
+import { RootStackParamList } from '../types/navigation';
+
+const PublicStack = createNativeStackNavigator<RootStackParamList>();
+
 function PublicNavigation() {
-  console.log("public navigation rendering"); // Add this
-  // return null
+  console.log("public navigation rendering");
+  
   return (
-    <PublicStack.Navigator initialRouteName="Cart">
-     
-      <PublicStack.Screen name="SignUp" component={SignUpScreen} />
-      <PublicStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <PublicStack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
-      <PublicStack.Screen name="FavoriteTemplate" component={FavoriteTemplateScreen} options={{ headerShown: false }} />
-      <PublicStack.Screen name="Cart" component={CartScreen} options={{ headerShown: false }} />
+    <PublicStack.Navigator 
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+      }}
+    >
+      <PublicStack.Screen 
+        name="Login" 
+        component={LoginScreen}
+      />
+      <PublicStack.Screen 
+        name="SignUp" 
+        component={SignUpScreen}
+      />
+      <PublicStack.Screen 
+        name="Home" 
+        component={HomeScreen}
+      />
+      <PublicStack.Screen 
+        name="Product" 
+        component={ProductScreen}
+      />
+      <PublicStack.Screen 
+        name="FavoriteTemplate" 
+        component={FavoriteTemplateScreen}
+      />
+      <PublicStack.Screen 
+        name="Cart" 
+        component={CartScreen}
+      />
     </PublicStack.Navigator>
   );
 }
