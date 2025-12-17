@@ -7,7 +7,7 @@ import ProductScreen from '../screens/ProductScreen';
 import FavoriteTemplateScreen from '../screens/FavoriteTemplateScreen';
 import CartScreen from '../screens/CartScreen';
 import { RootStackParamList } from '../types/navigation';
-
+import WelcomeScreen from '../screens/WelcomeScreen';
 const PublicStack = createNativeStackNavigator<RootStackParamList>();
 
 // Track navigation direction for animations
@@ -22,7 +22,7 @@ function PublicNavigation() {
   
   return (
     <PublicStack.Navigator 
-      initialRouteName="Home"
+      initialRouteName="Welcome"
       screenOptions={({ route, navigation }) => {
         // Determine animation based on navigation direction
         let animation: 'slide_from_left' | 'slide_from_right' | 'default' = 'slide_from_right';
@@ -57,6 +57,10 @@ function PublicNavigation() {
         };
       }}
     >
+      <PublicStack.Screen 
+        name="Welcome" 
+        component={WelcomeScreen}
+      />
       <PublicStack.Screen 
         name="Login" 
         component={LoginScreen}

@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Product: { productId: string };
   FavoriteTemplate: undefined;
   Cart: undefined;
+  Welcome: undefined;
 };
 
 export type NavigationProp = NativeStackNavigationProp<RootStackParamList>;

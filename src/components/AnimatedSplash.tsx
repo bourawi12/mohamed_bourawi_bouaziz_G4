@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { Animated } from "react-native";
+import { useRef } from "react";
+import { Animated, Easing } from "react-native";
 import BootSplash from "react-native-bootsplash";
 
 type Props = {
@@ -8,25 +8,37 @@ type Props = {
 
 export default function AnimatedSplash({ onFinish }: Props) {
   const opacity = useRef(new Animated.Value(1)).current;
-  const scale = useRef(new Animated.Value(1)).current;
-const translateY = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+
   const { container, logo } = BootSplash.useHideAnimation({
     manifest: require("../../assets/bootsplash/manifest.json"),
     logo: require("../../assets/bootsplash/logo.png"),
 
     animate: () => {
-      Animated.parallel([
+      Animated.sequence([
+        // ⬆️ Lift logo up slightly
+        Animated.timing(translateY, {
+          toValue: -20,
+          duration: 220,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+
+        // ⬇️ Drop logo down
+        Animated.timing(translateY, {
+          toValue: 500,
+          duration: 280,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+
+        // 🌫 Fade splash away
         Animated.timing(opacity, {
           toValue: 0,
-          duration: 600,
+          duration: 450,
+          easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }),
-        Animated.timing(scale, {
-          toValue: 0.85,
-          duration: 600,
-          useNativeDriver: true,
-        }),
-        
       ]).start(onFinish);
     },
   });
@@ -40,7 +52,9 @@ const translateY = useRef(new Animated.Value(0)).current;
         {...logo}
         style={[
           logo.style,
-          { transform: [{ scale }] },
+          {
+            transform: [{ translateY }],
+          },
         ]}
       />
     </Animated.View>

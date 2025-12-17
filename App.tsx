@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { View } from "react-native";
-import BootSplash from "react-native-bootsplash";
-import AnimatedSplash from "./src/components/AnimatedSplash";
-import AppNavigation from "./src/navigation/AppNavigation";
 import { NavigationContainer } from "@react-navigation/native";
+import BootSplash from "react-native-bootsplash";
+
+import AppNavigation from "./src/navigation/AppNavigation";
 import AppTemplate from "./src/templates/AppTemplate";
+import AnimatedSplash from "./src/components/AnimatedSplash";
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
