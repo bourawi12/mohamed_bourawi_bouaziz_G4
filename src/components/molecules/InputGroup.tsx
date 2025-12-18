@@ -10,7 +10,7 @@ interface InputGroupProps extends PropsWithChildren {
 export default function InputGroup({ label, children }: InputGroupProps) {
   return (
     <View style={styles.container}>
-      {/* {label && <Typography variant="label">{label}</Typography>} */}
+      {label && <Typography variant="label">{label}</Typography>}
       {children}
     </View>
   );

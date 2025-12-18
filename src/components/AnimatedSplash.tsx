@@ -26,7 +26,7 @@ export default function AnimatedSplash({ onFinish }: Props) {
 
         // ⬇️ Drop logo down
         Animated.timing(translateY, {
-          toValue: 500,
+          toValue: 700,
           duration: 280,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,

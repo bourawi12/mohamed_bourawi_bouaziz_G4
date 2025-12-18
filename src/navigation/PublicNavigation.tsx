@@ -8,6 +8,7 @@ import FavoriteTemplateScreen from '../screens/FavoriteTemplateScreen';
 import CartScreen from '../screens/CartScreen';
 import { RootStackParamList } from '../types/navigation';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import ProfileTemplate from '../templates/ProfileTemplate';
 const PublicStack = createNativeStackNavigator<RootStackParamList>();
 
 // Track navigation direction for animations
@@ -85,6 +86,11 @@ function PublicNavigation() {
         name="Cart" 
         component={CartScreen}
       />
+      <PublicStack.Screen
+  name="ProfileTemplate"
+  component={ProfileTemplate}
+/>
+
     </PublicStack.Navigator>
   );
 }

@@ -1,7 +1,14 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
-
+import { useNavigation } from '@react-navigation/native';
+import { getAvatarUrl } from "../../utils/avatar";
 interface HeaderProps {
   userName: string;
   location: string;
@@ -15,39 +22,47 @@ const Header: React.FC<HeaderProps> = ({
   profileImage,
   onNotificationPress,
 }) => {
+  const navigation = useNavigation<any>(); // simple & safe
+
+  const goToProfile = () => {
+    navigation.navigate('ProfileTemplate');
+  };
+const avatarUrl = getAvatarUrl(userName);
   return (
     <View style={styles.header}>
       <View style={styles.userInfo}>
-        <Image
-          source={
-            profileImage
-              ? { uri: profileImage }
-              : { uri: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Yudi' }
-          }
-          style={styles.avatar}
-        />
+        <TouchableOpacity onPress={goToProfile} activeOpacity={0.7}>
+          <Image
+        source={{ uri: avatarUrl }}
+        style={{
+          width: 48,
+          height: 48,
+          borderRadius: 24,
+          backgroundColor: "#E5E7EB",
+        }}
+      />
+        </TouchableOpacity>
+
         <View>
-         
           <View style={styles.locationContainer}>
             <Ionicons name="location" size={14} color="#00582F" />
             <Text style={styles.location}>{location}</Text>
           </View>
         </View>
       </View>
-      
+
       <TouchableOpacity
         style={styles.notificationButton}
         onPress={onNotificationPress}
         activeOpacity={0.7}
       >
-        <Ionicons name="notifications-outline" size={24} color="#00582F"  />
-      
+        <Ionicons name="notifications-outline" size={24} color="#00582F" />
       </TouchableOpacity>
-     
-      
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   header: {
