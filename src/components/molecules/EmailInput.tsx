@@ -7,6 +7,7 @@ export default function EmailInput(props: TextInputProps) {
       keyboardType="email-address"
       autoCapitalize="none"
       autoCorrect={false}
+      
       {...props}
     />
   );

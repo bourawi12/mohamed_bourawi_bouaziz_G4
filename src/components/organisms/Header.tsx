@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigation = useNavigation<any>(); // simple & safe
 
   const goToProfile = () => {
-    navigation.navigate('ProfileTemplate');
+    navigation.navigate('profile');
   };
 const avatarUrl = getAvatarUrl(userName);
   return (

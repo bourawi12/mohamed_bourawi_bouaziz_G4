@@ -10,7 +10,7 @@ export type RootStackParamList = {
   FavoriteTemplate: undefined;
   Cart: undefined;
   Welcome: undefined;
-  ProfileTemplate: undefined;
+  profile: undefined;
 };
 
 export type NavigationProp = NativeStackNavigationProp<RootStackParamList>;

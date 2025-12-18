@@ -5,6 +5,7 @@ type Variant = 'default' | 'outlined';
 
 interface InputProps extends TextInputProps {
   variant?: Variant;
+  
 }
 
 export default function Input({ style, ...props }: InputProps) {
@@ -13,6 +14,7 @@ export default function Input({ style, ...props }: InputProps) {
     <TextInput
       style={[styles.base, style]}
       placeholderTextColor={COLORS.textMuted}
+      
       {...props}
     />
   

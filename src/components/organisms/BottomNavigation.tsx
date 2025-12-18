@@ -27,6 +27,8 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         return 'favorite';
       case 'Cart':
         return 'cart';
+      case 'profile':
+        return 'profile';
       default:
         return 'home';
     }
@@ -53,7 +55,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         break;
       case 'profile':
         // Add profile screen navigation when ready
-        console.log('Profile screen not yet implemented');
+        navigation.navigate('profile');
         break;
     }
   };

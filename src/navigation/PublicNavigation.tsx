@@ -87,7 +87,7 @@ function PublicNavigation() {
         component={CartScreen}
       />
       <PublicStack.Screen
-  name="ProfileTemplate"
+  name="profile"
   component={ProfileTemplate}
 />
 
