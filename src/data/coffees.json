@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "Cappuccino",
+    "description": "With Sugar",
+    "price": 50000,
+    "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
+    "category": "1",
+    "isFavorite": false
+  },
+  {
+    "id": "2",
+    "name": "Cappuccino",
+    "description": "With Sugar",
+    "price": 50000,
+    "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=400",
+    "category": "1",
+    "isFavorite": true
+  },
+  {
+    "id": "3",
+    "name": "Cappuccino",
+    "description": "With Sugar",
+    "price": 50000,
+    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400",
+    "category": "1",
+    "isFavorite": false
+  },
+  {
+    "id": "4",
+    "name": "Cappuccino",
+    "description": "With Sugar",
+    "price": 50000,
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
+    "category": "1",
+    "isFavorite": false
+  }
+]

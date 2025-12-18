@@ -14,8 +14,12 @@ import Button from "../components/atoms/Button"; // Assumed path
 // Assuming you have an icon library like 'react-native-vector-icons'
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ionicons from "react-native-vector-icons/Ionicons"; // Using Expo's standard icons
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProductTemplate() {
+
+  const navigation = useNavigation<any>(); // simple & safe
+
   const [activeSize, setActiveSize] = useState("1");
   const [activeLevel, setActiveLevel] = useState("1");
   const insets = useSafeAreaInsets();
@@ -56,7 +60,7 @@ export default function ProductTemplate() {
         <Image source={{ uri: PRODUCT_IMAGE }} style={styles.productImage} />
 
         <View style={[styles.headerIcons, { paddingTop: insets.top + 10 }]}>
-          <TouchableOpacity style={styles.iconBackground}>
+          <TouchableOpacity style={styles.iconBackground} onPress={() => navigation.goBack()}>
             <Ionicons
                         name='arrow-back'
                         size={20}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   StyleSheet,
@@ -17,10 +17,12 @@ import { TabType } from '../types/TabType';
 import BottomNavigation from '../components/organisms/BottomNavigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ProductGrid from '../components/molecules/ProductGrid';
-/* import BottomNavigation, { TabType } from '../components/organisms/BottomNavigation'; */
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeTemplate() {
-  const [activeCategory, setActiveCategory] = useState('1');
+  const navigation = useNavigation<any>();
+
+  const [activeCategory, setActiveCategory] = useState<string>('');
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [products, setProducts] = useState<Product[]>([
     {
@@ -38,7 +40,7 @@ export default function HomeTemplate() {
       description: 'With Sugar',
       price: 50000,
       image: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400',
-      category: '1',
+      category: '2',
       isFavorite: true,
     },
     {
@@ -47,7 +49,7 @@ export default function HomeTemplate() {
       description: 'With Sugar',
       price: 50000,
       image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400',
-      category: '1',
+      category: '3',
       isFavorite: false,
     },
     {
@@ -56,59 +58,58 @@ export default function HomeTemplate() {
       description: 'With Sugar',
       price: 50000,
       image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400',
-      category: '1',
+      category: '4',
       isFavorite: false,
     },
   ]);
 
   const [specialOffers, setSpecialOffers] = useState<Product[]>([
-  {
-    id: '5',
-    name: 'Coffee',
-    description: 'With Sugar',
-    price: 60000,
-    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400',
-    category: '2',
-    isFavorite: false,
-  },
-  {
-    id: '6',
-    name: 'Cappuccino',
-    description: 'With Sugar',
-    price: 60000,
-    image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400',
-    category: '1',
-    isFavorite: true,
-  },
-  {
-    id: '7',
-    name: 'Latte',
-    description: 'Caramel Flavor',
-    price: 55000,
-    image: 'https://images.unsplash.com/photo-1583267746720-87b5f1b9b2f3?w=400',
-    category: '5',
-    isFavorite: false,
-  },
-  {
-    id: '8',
-    name: 'Espresso',
-    description: 'Strong & Hot',
-    price: 50000,
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400',
-    category: '3',
-    isFavorite: false,
-  },
-  {
-    id: '9',
-    name: 'Americano',
-    description: 'Classic Black Coffee',
-    price: 45000,
-    image: 'https://images.unsplash.com/photo-1565679594661-ec7c57e9d6e8?w=400',
-    category: '6',
-    isFavorite: false,
-  },
-]);
-
+    {
+      id: '5',
+      name: 'Coffee',
+      description: 'With Sugar',
+      price: 60000,
+      image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400',
+      category: '2',
+      isFavorite: false,
+    },
+    {
+      id: '6',
+      name: 'Cappuccino',
+      description: 'With Sugar',
+      price: 60000,
+      image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400',
+      category: '1',
+      isFavorite: true,
+    },
+    {
+      id: '7',
+      name: 'Latte',
+      description: 'Caramel Flavor',
+      price: 55000,
+      image: 'https://images.unsplash.com/photo-1583267746720-87b5f1b9b2f3?w=400',
+      category: '5',
+      isFavorite: false,
+    },
+    {
+      id: '8',
+      name: 'Espresso',
+      description: 'Strong & Hot',
+      price: 50000,
+      image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400',
+      category: '3',
+      isFavorite: false,
+    },
+    {
+      id: '9',
+      name: 'Americano',
+      description: 'Classic Black Coffee',
+      price: 45000,
+      image: 'https://images.unsplash.com/photo-1565679594661-ec7c57e9d6e8?w=400',
+      category: '6',
+      isFavorite: false,
+    },
+  ]);
 
   const categories = [
     { id: '1', name: 'Cappuccino' },
@@ -119,19 +120,30 @@ export default function HomeTemplate() {
     { id: '6', name: 'Americano' },
   ];
 
+  // Filter products based on active category
+  const filteredProducts = useMemo(() => {
+    if (!activeCategory || activeCategory === '') return products; // Show all if no category selected
+    return products.filter(product => product.category === activeCategory);
+  }, [products, activeCategory]);
+
   const handleCategoryPress = (categoryId: string) => {
-    setActiveCategory(categoryId);
-    console.log('Category selected:', categoryId);
+    // Toggle category: if clicking the active category, deactivate it
+    if (activeCategory === categoryId) {
+      setActiveCategory('');
+      console.log('Category deselected');
+    } else {
+      setActiveCategory(categoryId);
+      console.log('Category selected:', categoryId);
+    }
   };
 
   const handleProductPress = (productId: string) => {
     console.log('Product pressed:', productId);
-    // Navigate to product detail screen
+    navigation.navigate('Product', { productId });
   };
 
   const handleAddToCart = (productId: string) => {
     console.log('Add to cart:', productId);
-    // Add to cart logic
   };
 
   const handleToggleFavorite = (productId: string) => {
@@ -154,60 +166,59 @@ export default function HomeTemplate() {
   const handleTabPress = (tab: TabType) => {
     setActiveTab(tab);
     console.log('Tab pressed:', tab);
-    // Navigate to different screens based on tab
   };
 
- const insets = useSafeAreaInsets();  // Get safe area values
+  const insets = useSafeAreaInsets();
 
-return (
-  <View style={[styles.container, { paddingTop: insets.top }]}>
-    <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-    <ScrollView
-      style={styles.scrollView}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={[
-        styles.scrollContent,
-        { paddingBottom: 80 + insets.bottom }  // Adjust '80' to your bottom nav height (measure via debugger or estimate)
-      ]}
-    >
-      {/* Header */}
-      <Header
-        userName="Yudi"
-        location="Jakarta, Indonesia"
-        onNotificationPress={handleNotificationPress}
-      />
-      {/* Search Bar */}
-      <View style={styles.section}>
-        <SearchBar />
+  return (
+    <View style={[styles.container, { paddingTop: insets.top }]}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: 80 + insets.bottom }
+        ]}
+      >
+        {/* Header */}
+        <Header
+          userName="Yudi"
+          location="Jakarta, Indonesia"
+          onNotificationPress={handleNotificationPress}
+        />
+        {/* Search Bar */}
+        <View style={styles.section}>
+          <SearchBar />
+        </View>
+        {/* Categories */}
+        <CategoryList
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryPress={handleCategoryPress}
+        />
+        {/* Products List - HORIZONTAL SCROLL - FILTERED */}
+        <ProductList
+          products={filteredProducts}
+          onProductPress={handleProductPress}
+          onAddToCart={handleAddToCart}
+          onToggleFavorite={handleToggleFavorite}
+        />
+        {/* Special Offers - VERTICAL 2 COLUMNS - ALWAYS SHOW ALL */}
+        <ProductGrid
+          title="Special Offer"
+          products={specialOffers}
+          onProductPress={handleProductPress}
+          onAddToCart={handleAddToCart}
+          onToggleFavorite={handleToggleFavorite}
+        />
+      </ScrollView>
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNavContainer}>
+        <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
       </View>
-      {/* Categories */}
-      <CategoryList
-        categories={categories}
-        activeCategory={activeCategory}
-        onCategoryPress={handleCategoryPress}
-      />
-      {/* Products List - HORIZONTAL SCROLL */}
-      <ProductList
-        products={products}
-        onProductPress={handleProductPress}
-        onAddToCart={handleAddToCart}
-        onToggleFavorite={handleToggleFavorite}
-      />
-      {/* Special Offers - VERTICAL 2 COLUMNS */}
-      <ProductGrid
-        title="Special Offer"
-        products={specialOffers}
-        onProductPress={handleProductPress}
-        onAddToCart={handleAddToCart}
-        onToggleFavorite={handleToggleFavorite}
-      />
-    </ScrollView>
-    {/* Bottom Navigation - Now absolute */}
-    <View style={styles.bottomNavContainer}>
-      <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
-  </View>
-);
+  );
 }
 
 const styles = StyleSheet.create({
@@ -231,6 +242,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: '#FFFFFF', 
-    
   },
 });
