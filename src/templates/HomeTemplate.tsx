@@ -126,19 +126,27 @@ const [location, setLocation] = useState('Fetching location...');
     authorizationLevel: 'whenInUse',
   });
 
-  // Reverse geocoding function
   const getAddressFromCoords = async (lat: number, lon: number) => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
-      );
-      const data = await response.json();
-      setLocation(data.display_name || 'Address not found');
-    } catch (error) {
-      console.log('Reverse geocoding error:', error);
-      setLocation('Error fetching address');
-    }
-  };
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=en`,
+      {
+        headers: {
+          'User-Agent': 'CoffeeApp/1.0 (contact@coffeeapp.com)',
+          'Accept': 'application/json',
+        },
+      }
+    );
+
+    const data = await response.json();
+    setLocation(data.display_name || 'Address not found');
+  } catch (error) {
+    console.log('Reverse geocoding error:', error);
+    setLocation('Error fetching address');
+  }
+};
+
+
 
   // Get current location and fetch address
   const getLocation = async () => {
