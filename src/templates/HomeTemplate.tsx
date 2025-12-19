@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -11,7 +12,8 @@ import Header from '../components/organisms/Header';
 import SearchBar from '../components/molecules/SearchBar';
 import CategoryList from '../components/organisms/CategoryList';
 import ProductList from '../components/molecules/ProductList';
-
+import Geolocation from '@react-native-community/geolocation';
+import { PermissionsAndroid, Platform } from 'react-native';
 import { Product } from '../types/Product';
 import { TabType } from '../types/TabType';
 import BottomNavigation from '../components/organisms/BottomNavigation';
@@ -21,7 +23,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function HomeTemplate() {
   const navigation = useNavigation<any>();
-
+const [location, setLocation] = useState('Fetching location...');
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [products, setProducts] = useState<Product[]>([
@@ -119,6 +121,57 @@ export default function HomeTemplate() {
     { id: '5', name: 'Latte' },
     { id: '6', name: 'Americano' },
   ];
+  Geolocation.setRNConfiguration({
+    skipPermissionRequests: false,
+    authorizationLevel: 'whenInUse',
+  });
+
+  // Reverse geocoding function
+  const getAddressFromCoords = async (lat: number, lon: number) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+      );
+      const data = await response.json();
+      setLocation(data.display_name || 'Address not found');
+    } catch (error) {
+      console.log('Reverse geocoding error:', error);
+      setLocation('Error fetching address');
+    }
+  };
+
+  // Get current location and fetch address
+  const getLocation = async () => {
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        setLocation('Permission denied');
+        return;
+      }
+    } else {
+      Geolocation.requestAuthorization();
+    }
+
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation(`Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`); // temporary
+        getAddressFromCoords(latitude, longitude); // fetch human-readable address
+      },
+      (error) => {
+        console.log('Location error:', error);
+        setLocation('Location unavailable');
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
 
   // Filter products based on active category
   const filteredProducts = useMemo(() => {
@@ -184,7 +237,7 @@ export default function HomeTemplate() {
         {/* Header */}
         <Header
           userName="Yudi"
-          location="Jakarta, Indonesia"
+          location={location}
           onNotificationPress={handleNotificationPress}
         />
         {/* Search Bar */}
