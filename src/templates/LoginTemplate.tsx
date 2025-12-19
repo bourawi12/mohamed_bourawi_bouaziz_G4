@@ -1,108 +1,100 @@
-import { PropsWithChildren, useRef, useState } from "react";
-import { Text, TextInput, View, StyleSheet, Animated, TouchableOpacity, StatusBar } from "react-native";
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import Typography from '../components/atoms/Typography';
+import LoginForm from '../components/organisms/LoginForm';
+import { SPACING, RADIUS, COLORS } from '../constants/theme';
+import { FormData } from '../types/FormData';
+import { useNavigation } from '@react-navigation/native';
+const PRIMARY_GREEN = '#00582F';
+const SOFT_GREEN = '#E8F5E9';
+export default function LoginTemplate() {
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    password: '',
+  });
 
-
-export default function LoginTemplate(props: PropsWithChildren) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 5000,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const onPressLoginButton = () => {
-    console.log("You tapped the button!");
-    console.log(`Email: ${email}, Password: ${password}`);
+  const handleLogin = () => {
+    console.log('Login submitted:', formData);
   };
 
   const handleForgotPassword = () => {
-    console.log("Navigate to Forgot Password");
+    console.log('Forgot password clicked');
   };
 
-  const handleRegister = () => {
-    console.log("Navigate to Register");
-  };
-
-  const handleBack = () => {
-    console.log("Navigate back");
+  const handleSignUp = () => {
+    console.log('Sign up clicked');
   };
 
   return (
     <View style={styles.container}>
-        {/* la place batterie et temps en haut */}
-      <StatusBar barStyle="dark-content" backgroundColor="#FDB924" />
-      
-     
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Text style={styles.backButtonText}>←</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleRegister}>
-          <Text style={styles.registerText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* blaset titre*/}
-      <View style={styles.titleSection}>
-        <Text style={styles.title}>Sign In</Text>
-        <Text style={styles.subtitle}>
-          welcome to my first App !! 
-          where we gonna build using react native language 
-        </Text>
-      </View>
-
-      {/* el formulaire */}
-      <View style={styles.formSection}>
-        <TextInput 
-          placeholder="Username" 
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholderTextColor="#999"
-        />
-        <TextInput 
-          placeholder="Password" 
-          secureTextEntry={true}
-          style={styles.input}
-          value={password}
-          placeholderTextColor="#999"
-          onChangeText={setPassword}
-        />   
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+      <View style={styles.decorativeCircle} />
+        <View style={styles.decorativeCircleSmall} />
         
-        <TouchableOpacity 
-          style={styles.forgotPasswordContainer}
-          onPress={handleForgotPassword}
-        >
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
-        
-        
-        <TouchableOpacity 
-          style={styles.signInButton}
-          onPress={() => { onPressLoginButton(); fadeIn(); }}
-        >
-          <Text style={styles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
+        <View style={styles.card}>
+          {/* Header with Icon */}
+          <View style={styles.header}>
+           
+            <Typography style={styles.title}>
+              Welcome Back
+            </Typography>
+            <Typography style={styles.subtitle}>
+              Sign in to continue to your account
+            </Typography>
+          </View>
 
-        {/* google , facebook*/}
-        <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialIcon}>G</Text>
-          <Text style={styles.socialButtonText}>Continue with </Text>
-          <Text style={styles.arrow}>→</Text>
-        </TouchableOpacity>
+          {/* Login Form */}
+          <LoginForm
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleLogin}
+          />
 
-        <TouchableOpacity style={styles.socialButton}>
-          <Text style={[styles.socialIcon, styles.facebookIcon]}>f</Text>
-          <Text style={styles.socialButtonText}>Continue with Facebook</Text>
-          <Text style={styles.arrow}>→</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Forgot Password */}
+          <View style={styles.forgotContainer}>
+            <TouchableOpacity onPress={handleForgotPassword}>
+              <Typography style={styles.forgotText}>
+                Forgot Password?
+              </Typography>
+            </TouchableOpacity>
+          </View>
 
+          {/* Divider */}
+          <View style={styles.dividerContainer}>
+            <View style={styles.divider} />
+            <Typography style={styles.orText}>OR</Typography>
+            <View style={styles.divider} />
+          </View>
+
+          {/* Sign Up */}
+          <View style={styles.signUpContainer}>
+            <Typography style={styles.signUpPrompt}>
+              Don't have an account?{' '}
+            </Typography>
+            <TouchableOpacity onPress={handleSignUp}>
+              <Typography style={styles.signUpText}>
+                Sign Up
+              </Typography>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Typography style={styles.footerText}>
+            By continuing, you agree to our Terms & Privacy Policy
+          </Typography>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -110,131 +102,125 @@ export default function LoginTemplate(props: PropsWithChildren) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffffff",
+    backgroundColor: '#ffffffff',
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: SPACING.lg,
+    paddingTop: SPACING.xxl * 2,
+    paddingBottom: SPACING.xxl,
+    minHeight: '100%',
+  },
+  decorativeCircle: {
+    position: 'absolute',
+    top: -100,
+    right: -100,
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    backgroundColor: SOFT_GREEN,
+    opacity: 0.3,
+  },
+  decorativeCircleSmall: {
+    position: 'absolute',
+    bottom: 50,
+    left: -30,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: PRIMARY_GREEN,
+    opacity: 0.1,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: RADIUS.lg * 1.5,
+    padding: SPACING.xxl,
+    width: '100%',
+    maxWidth: 420,
+    alignSelf: 'center',
+    
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 20,
+    alignItems: 'center',
+    marginBottom: SPACING.xl + SPACING.md,
   },
-  backButton: {
+  iconContainer: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: SOFT_GREEN,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SPACING.lg,
+  },
+  iconInner: {
     width: 40,
     height: 40,
-    justifyContent: "center",
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: "#000",
-  },
-  registerText: {
-    fontSize: 16,
-    color: "#000",
-    fontWeight: "500",
-  },
-  titleSection: {
-    paddingHorizontal: 20,
-    paddingBottom: 30,
+    borderRadius: 20,
+    backgroundColor: PRIMARY_GREEN,
   },
   title: {
-    fontSize: 42,
-    fontWeight: "bold",
-    color: "#000",
-    marginBottom: 10,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: SPACING.xs,
   },
   subtitle: {
-    fontSize: 14,
-    color: "#333",
-    lineHeight: 20,
-    maxWidth: 280,
-  },
-  formSection: {
-    flex: 1,
-    backgroundColor: "#F5F5F5",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingTop: 40,
-  },
-  input: {
-    width: "100%",
-    height: 55,
-    backgroundColor: "#FFF",
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    marginBottom: 15,
-    fontSize: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  forgotPasswordContainer: {
-    alignSelf: "flex-end",
-    marginBottom: 25,
-    marginTop: 5,
-  },
-  forgotPasswordText: {
-    color: "#666",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  signInButton: {
-    width: "100%",
-    height: 55,
-    backgroundColor: "#000",
-    borderRadius: 27.5,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 30,
-  },
-  signInButtonText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  socialButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    height: 55,
-    backgroundColor: "#FFF",
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    marginBottom: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  socialIcon: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#DB4437",
-    marginRight: 15,
-  },
-  facebookIcon: {
-    color: "#1877F2",
-  },
-  socialButtonText: {
-    flex: 1,
     fontSize: 15,
-    color: "#000",
-    fontWeight: "500",
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 22,
   },
-  arrow: {
-    fontSize: 18,
-    color: "#000",
+  forgotContainer: {
+    alignItems: 'flex-end',
+    marginTop: SPACING.xs,
+    marginBottom: SPACING.md,
   },
-  bottomAccent: {
-    height: 80,
-    backgroundColor: "#FDB924",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    marginTop: -30,
+  forgotText: {
+    color: PRIMARY_GREEN,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: SPACING.xl,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#E5E7EB',
+  },
+  orText: {
+    marginHorizontal: SPACING.md,
+    color: '#9CA3AF',
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: SPACING.sm,
+  },
+  signUpPrompt: {
+    fontSize: 15,
+    color: '#6B7280',
+  },
+  signUpText: {
+    color: PRIMARY_GREEN,
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  footer: {
+    marginTop: SPACING.xl,
+    paddingHorizontal: SPACING.md,
+  },
+  footerText: {
+    textAlign: 'center',
+    fontSize: 12,
+    color: '#9CA3AF',
+    lineHeight: 18,
   },
 });

@@ -23,7 +23,7 @@ interface ButtonProps extends TouchableOpacityProps {
 
 export default function Button({
   title,
-  variant = 'primary',
+  variant = 'primary' ,
   disabled,
   style,
   textStyle,

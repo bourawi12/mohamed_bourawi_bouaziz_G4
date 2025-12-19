@@ -23,15 +23,17 @@ export default function LoginForm({
         <EmailInput
           value={formData.email}
           onChangeText={text => setFormData({ ...formData, email: text })}
+          placeholder='Your email'
         />
       </InputGroup>
       <InputGroup label="Password:">
         <PasswordInput
           value={formData.password}
           onChangeText={text => setFormData({ ...formData, password: text })}
+          placeholder='Your Password'
         />
       </InputGroup>
-      <Button variant="ghost" title="Login" onPress={onSubmit} />
+      <Button style={styles.button} title="Login" onPress={onSubmit} />
     </View>
   );
 }
@@ -40,5 +42,13 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     marginTop: SPACING.xl,
+  },
+  button: {
+    height: 60,
+    backgroundColor: "#00582F", // Dark Green
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

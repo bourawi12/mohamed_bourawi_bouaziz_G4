@@ -82,6 +82,10 @@ export default function CartTemplate() {
     console.log('Proceeding to checkout');
     // Navigate to checkout or payment screen
     // navigation.navigate('Checkout');
+    const handleBuyPress = () => {
+  navigation.navigate('Home');
+};
+
   };
 
   // Calculate totals

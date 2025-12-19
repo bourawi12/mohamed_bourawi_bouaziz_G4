@@ -11,6 +11,7 @@ export type RootStackParamList = {
   Cart: undefined;
   Welcome: undefined;
   profile: undefined;
+  DeliveryTracking : undefined;
 };
 
 export type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
