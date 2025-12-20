@@ -5,13 +5,15 @@ import { SPACING } from '../../constants/theme';
 
 interface InputGroupProps extends PropsWithChildren {
   label?: string;
+  error?: string;
 }
 
-export default function InputGroup({ label, children }: InputGroupProps) {
+export default function InputGroup({ label, error, children }: InputGroupProps) {
   return (
     <View style={styles.container}>
       {label && <Typography variant="label">{label}</Typography>}
       {children}
+      {error && <Typography variant="caption" style={styles.error}>{error}</Typography>}
     </View>
   );
 }
@@ -19,5 +21,9 @@ export default function InputGroup({ label, children }: InputGroupProps) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: SPACING.lg,
+  },
+  error: {
+    color: 'red',
+    marginTop: 4,
   },
 });

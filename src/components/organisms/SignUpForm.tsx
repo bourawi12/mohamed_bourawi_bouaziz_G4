@@ -5,6 +5,8 @@ import InputGroup from '../molecules/InputGroup';
 import Button from '../atoms/Button';
 import Input from '../atoms/Input';
 import { SPACING } from '../../constants/theme';
+import { Formik } from 'formik';
+import { signupValidationSchema } from '../../auth/validations/signupValidation';
 
 interface SignupFormData {
   fullName: string;
@@ -25,44 +27,85 @@ export default function SignupForm({
   onSubmit,
 }: SignupFormProps) {
   return (
-    <View style={styles.formContainer}>
-      <InputGroup label="Full Name:">
-        <Input
-          value={formData.fullName}
-          onChangeText={text => setFormData({ ...formData, fullName: text })}
-          placeholder="Your full name"
-          autoCapitalize="words"
-        />
-      </InputGroup>
-      
-      <InputGroup label="Email:">
-        <EmailInput
-          value={formData.email}
-          onChangeText={text => setFormData({ ...formData, email: text })}
-          placeholder="Your email"
-        />
-      </InputGroup>
-      
-      <InputGroup label="Password:">
-        <PasswordInput
-          value={formData.password}
-          onChangeText={text => setFormData({ ...formData, password: text })}
-          placeholder="Your password"
-        />
-      </InputGroup>
-      
-      <InputGroup label="Confirm Password:">
-        <PasswordInput
-          value={formData.confirmPassword}
-          onChangeText={text => setFormData({ ...formData, confirmPassword: text })}
-          placeholder="Confirm your password"
-        />
-      </InputGroup>
-      
-      <Button style={styles.button} title="Sign Up" onPress={onSubmit} />
-    </View>
+    <Formik
+      initialValues={formData}
+      validationSchema={signupValidationSchema}
+      onSubmit={(values) => {
+        setFormData(values);
+        onSubmit();
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isValid,
+      }) => (
+        <View style={styles.formContainer}>
+          <InputGroup
+            label="Full Name:"
+            error={touched.fullName ? errors.fullName : undefined}
+          >
+            <Input
+              value={values.fullName}
+              onChangeText={handleChange('fullName')}
+              onBlur={handleBlur('fullName')}
+              placeholder="Your full name"
+              autoCapitalize="words"
+            />
+          </InputGroup>
+
+          <InputGroup
+            label="Email:"
+            error={touched.email ? errors.email : undefined}
+          >
+            <EmailInput
+              value={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              placeholder="Your email"
+            />
+          </InputGroup>
+
+          <InputGroup
+            label="Password:"
+            error={touched.password ? errors.password : undefined}
+          >
+            <PasswordInput
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              placeholder="Your password"
+            />
+          </InputGroup>
+
+          <InputGroup
+            label="Confirm Password:"
+            error={touched.confirmPassword ? errors.confirmPassword : undefined}
+          >
+            <PasswordInput
+              value={values.confirmPassword}
+              onChangeText={handleChange('confirmPassword')}
+              onBlur={handleBlur('confirmPassword')}
+              placeholder="Confirm your password"
+            />
+          </InputGroup>
+
+          <Button
+            title="Sign Up"
+            onPress={handleSubmit as any}
+            disabled={!isValid}
+            style={styles.button}
+          />
+        </View>
+      )}
+    </Formik>
   );
 }
+
 
 const styles = StyleSheet.create({
   formContainer: {

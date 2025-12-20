@@ -1,10 +1,12 @@
 import { StyleSheet, View } from 'react-native';
+import { Formik } from 'formik';
 import { FormData } from '../../types/FormData';
 import EmailInput from '../molecules/EmailInput';
 import PasswordInput from '../molecules/PasswordInput';
 import InputGroup from '../molecules/InputGroup';
 import Button from '../atoms/Button';
 import { SPACING } from '../../constants/theme';
+import { loginValidationSchema } from '../../auth/validations/loginValidation';
 
 interface LoginFormProps {
   formData: FormData;
@@ -18,25 +20,60 @@ export default function LoginForm({
   onSubmit,
 }: LoginFormProps) {
   return (
-    <View style={styles.formContainer}>
-      <InputGroup label="Email:">
-        <EmailInput
-          value={formData.email}
-          onChangeText={text => setFormData({ ...formData, email: text })}
-          placeholder='Your email'
-        />
-      </InputGroup>
-      <InputGroup label="Password:">
-        <PasswordInput
-          value={formData.password}
-          onChangeText={text => setFormData({ ...formData, password: text })}
-          placeholder='Your Password'
-        />
-      </InputGroup>
-      <Button style={styles.button} title="Login" onPress={onSubmit} />
-    </View>
+    <Formik
+      initialValues={formData}
+      validationSchema={loginValidationSchema}
+      onSubmit={(values) => {
+        setFormData(values);
+        onSubmit();
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isValid,
+      }) => (
+        <View style={styles.formContainer}>
+          <InputGroup
+            label="Email:"
+            error={touched.email ? errors.email : undefined}
+          >
+            <EmailInput
+              value={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              placeholder="Your email"
+            />
+          </InputGroup>
+
+          <InputGroup
+            label="Password:"
+            error={touched.password ? errors.password : undefined}
+          >
+            <PasswordInput
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              placeholder="Your password"
+            />
+          </InputGroup>
+
+          <Button
+            style={styles.button}
+            title="Login"
+            onPress={handleSubmit as any}
+            disabled={!isValid}
+          />
+        </View>
+      )}
+    </Formik>
   );
 }
+
 
 const styles = StyleSheet.create({
   formContainer: {
