@@ -13,7 +13,8 @@ import  SignUpFormData  from "../types/SignUpFormData";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProp } from '../types/navigation';
 import SignupForm from "../components/organisms/SignUpForm";
-
+import { auth } from '../utils/firebaseConfig';
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 export default function SignUpTemplate() {
     
   const [seed, setSeed] = useState(getRandomSeed());
@@ -57,7 +58,16 @@ const navigation = useNavigation<NavigationProp>();
     setIsEditing(false);
   };
 
+const handleSignup = async () => {
+  const { email, password, fullName, imageUri } = formData;
 
+  try {
+    
+    navigation.navigate("Home");
+  } catch (error: any) {
+    console.log("Signup error:", error.message);
+  }
+};
 
 
   return (
@@ -75,7 +85,7 @@ const navigation = useNavigation<NavigationProp>();
   setFormData={setFormData}
   onSubmit={() => {
     console.log("Sign Up submitted:", formData);
-    navigation.navigate("Home"); // <-- use navigate instead of replace
+    handleSignup();
   }}
 />
 
