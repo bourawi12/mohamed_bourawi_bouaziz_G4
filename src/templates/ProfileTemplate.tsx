@@ -9,7 +9,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { getAvatarUrl, getRandomSeed } from "../utils/avatar";
 import EditProfileForm from "../components/organisms/EditProfileForm";
-import { SignUpFormData } from "../types/SignUpFormData";
+import  SignUpFormData  from "../types/SignUpFormData";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileTemplate() {

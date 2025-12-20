@@ -3,7 +3,7 @@ import InputGroup from "../molecules/InputGroup";
 import EmailInput from "../molecules/EmailInput";
 import PasswordInput from "../molecules/PasswordInput";
 import Button from "../atoms/Button";
-import { SignUpFormData } from "../../types/SignUpFormData";
+import  SignUpFormData  from "../../types/SignUpFormData";
 import { SPACING } from "../../constants/theme";
 
 interface Props {
@@ -32,7 +32,7 @@ export default function EditProfileForm({
           onChangeText={(text) =>
             setFormData({ ...formData, fullName: text })
           }
-          placeholder="Ex : Mark Raice"
+          placeholder="Your full name"
         />
       </InputGroup>
 
@@ -43,7 +43,7 @@ export default function EditProfileForm({
           onChangeText={(text) =>
             setFormData({ ...formData, email: text })
           }
-          placeholder="Ex : MarkRaice16@gmail.com"
+          placeholder="Your email"
         />
       </InputGroup>
 
@@ -54,7 +54,7 @@ export default function EditProfileForm({
           onChangeText={(text) =>
             setFormData({ ...formData, password: text })
           }
-          placeholder="Ex : MarkRaice123+"
+          placeholder="Your password"
         />
       </InputGroup>
 
@@ -65,7 +65,7 @@ export default function EditProfileForm({
           onChangeText={(text) =>
             setFormData({ ...formData, confirmPassword: text })
           }
-          placeholder="Ex : MarkRaice123+"
+          placeholder="Your password"
         />
       </InputGroup>
 

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 /* import SignUpScreen from '../screens/SignUpScreen'; */
 import HomeScreen from '../screens/HomeScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 import ProductScreen from '../screens/ProductScreen';
 import FavoriteTemplateScreen from '../screens/FavoriteTemplateScreen';
 import CartScreen from '../screens/CartScreen';
@@ -67,10 +68,10 @@ function PublicNavigation() {
         name="Login" 
         component={LoginScreen}
       />
-    {/*   <PublicStack.Screen 
+      <PublicStack.Screen 
         name="SignUp" 
         component={SignUpScreen}
-      /> */}
+      />
       <PublicStack.Screen 
         name="Home" 
         component={HomeScreen}

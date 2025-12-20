@@ -9,7 +9,12 @@ import Typography from '../components/atoms/Typography';
 import LoginForm from '../components/organisms/LoginForm';
 import { SPACING, RADIUS, COLORS } from '../constants/theme';
 import { FormData } from '../types/FormData';
+
+
 import { useNavigation } from '@react-navigation/native';
+
+import { NavigationProp } from '../types/navigation';
+
 const PRIMARY_GREEN = '#00582F';
 const SOFT_GREEN = '#E8F5E9';
 export default function LoginTemplate() {
@@ -17,7 +22,7 @@ export default function LoginTemplate() {
     email: '',
     password: '',
   });
-
+const navigation = useNavigation<NavigationProp>();
   const handleLogin = () => {
     console.log('Login submitted:', formData);
   };
@@ -28,6 +33,7 @@ export default function LoginTemplate() {
 
   const handleSignUp = () => {
     console.log('Sign up clicked');
+    navigation.navigate('SignUp');
   };
 
   return (
