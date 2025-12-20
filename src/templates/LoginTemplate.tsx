@@ -25,6 +25,7 @@ export default function LoginTemplate() {
 const navigation = useNavigation<NavigationProp>();
   const handleLogin = () => {
     console.log('Login submitted:', formData);
+    navigation.navigate("Home"); 
   };
 
   const handleForgotPassword = () => {

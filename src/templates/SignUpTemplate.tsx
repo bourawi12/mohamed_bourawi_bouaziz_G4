@@ -11,18 +11,21 @@ import { getAvatarUrl, getRandomSeed } from "../utils/avatar";
 import EditProfileForm from "../components/organisms/EditProfileForm";
 import  SignUpFormData  from "../types/SignUpFormData";
 import { useNavigation } from "@react-navigation/native";
+import { NavigationProp } from '../types/navigation';
 import SignupForm from "../components/organisms/SignUpForm";
 
 export default function SignUpTemplate() {
+    
   const [seed, setSeed] = useState(getRandomSeed());
- const navigation = useNavigation();
+const navigation = useNavigation<NavigationProp>();
   const [formData, setFormData] = useState<SignUpFormData>({
-    imageUri: getAvatarUrl(seed),
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  imageUri: getAvatarUrl(seed), // always a string
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+});
+
 
   const [isEditing, setIsEditing] = useState(false);
   const [originalData, setOriginalData] =
@@ -54,11 +57,8 @@ export default function SignUpTemplate() {
     setIsEditing(false);
   };
 
-  const saveChanges = () => {
-    console.log("Saved profile:", formData);
-    setIsEditing(false);
-    // 👉 API call here
-  };
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -71,10 +71,15 @@ export default function SignUpTemplate() {
       
 
       <SignupForm
-        formData={formData}
-        setFormData={setFormData}
-        onSubmit={saveChanges}
-      />
+  formData={formData}
+  setFormData={setFormData}
+  onSubmit={() => {
+    console.log("Sign Up submitted:", formData);
+    navigation.navigate("Home"); // <-- use navigate instead of replace
+  }}
+/>
+
+
     </ScrollView>
   );
 }
