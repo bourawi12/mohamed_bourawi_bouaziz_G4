@@ -2,15 +2,20 @@ import { View, TextInput, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 
-export default function SearchBar() {
+interface Props {
+  value: string;
+  onChangeText: (text: string) => void;
+}
+
+export default function SearchBar({ value, onChangeText }: Props) {
   return (
     <View style={styles.container}>
       <Ionicons name="search" size={22} color="#8AAE9E" />
-
-      <TextInput
+<TextInput
         style={styles.input}
-        placeholder="Search Coffee ..."
-        placeholderTextColor="#8AAE9E"
+        placeholder="Search coffee..."
+        value={value}
+        onChangeText={onChangeText}
       />
 
       <Ionicons name="options-outline" size={22} color="#1C4E3D" />

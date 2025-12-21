@@ -8,7 +8,7 @@ export default function DeliveryTrackingTemplate() {
   const [userLocation, setUserLocation] = useState<any>(null);
   const [courierLocation, setCourierLocation] = useState<any>(null);
 
-  // Get user location
+
   const getLocation = async () => {
     if (Platform.OS === 'android') {
       const granted = await PermissionsAndroid.request(
@@ -23,7 +23,7 @@ export default function DeliveryTrackingTemplate() {
 
         setUserLocation({ latitude, longitude });
 
-        // Start courier a bit far
+    
         setCourierLocation({
           latitude: latitude + 0.01,
           longitude: longitude + 0.01,
@@ -34,7 +34,7 @@ export default function DeliveryTrackingTemplate() {
     );
   };
 
-  // Move courier toward user
+
   useEffect(() => {
     if (!userLocation || !courierLocation) return;
 
@@ -55,7 +55,7 @@ export default function DeliveryTrackingTemplate() {
   if (!userLocation || !courierLocation) {
     return (
       <View style={styles.loading}>
-        <Text>Finding your courier ☕🚴‍♂️</Text>
+        <Text>Finding your courier </Text>
       </View>
     );
   }
@@ -76,7 +76,7 @@ export default function DeliveryTrackingTemplate() {
       </MapView>
 
       <View style={styles.card}>
-        <Text style={styles.text}>Your coffee is on the way ☕</Text>
+        <Text style={styles.text}>Your coffee is on the way </Text>
       </View>
     </View>
   );

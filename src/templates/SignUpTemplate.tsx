@@ -13,14 +13,12 @@ import  SignUpFormData  from "../types/SignUpFormData";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProp } from '../types/navigation';
 import SignupForm from "../components/organisms/SignUpForm";
-import { auth } from '../utils/firebaseConfig';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 export default function SignUpTemplate() {
     
   const [seed, setSeed] = useState(getRandomSeed());
 const navigation = useNavigation<NavigationProp>();
   const [formData, setFormData] = useState<SignUpFormData>({
-  imageUri: getAvatarUrl(seed), // always a string
+  imageUri: getAvatarUrl(seed), 
   fullName: "",
   email: "",
   password: "",

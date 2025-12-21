@@ -58,17 +58,6 @@ export default function CartTemplate() {
     );
   };
 
-  const handleRemoveFromCart = (productId: string) => {
-    setProducts((prev) =>
-      prev.map((p) => {
-        if (p.id === productId) {
-          const newQuantity = Math.max((p.quantity || 1) - 1, 0);
-          return { ...p, quantity: newQuantity };
-        }
-        return p;
-      }).filter(p => (p.quantity || 0) > 0)
-    );
-  };
 
   const handleToggleFavorite = (productId: string) => {
     setProducts((prev) =>

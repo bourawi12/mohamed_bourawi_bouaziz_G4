@@ -11,23 +11,28 @@ import { getAvatarUrl, getRandomSeed } from "../utils/avatar";
 import EditProfileForm from "../components/organisms/EditProfileForm";
 import  SignUpFormData  from "../types/SignUpFormData";
 import { useNavigation } from "@react-navigation/native";
+const INITIAL_PROFILE: SignUpFormData = {
+  imageUri: "",
+  fullName: "Mohamed Bouaziz",
+  email: "mohamed12bouaziz@gmail.com",
+  password: "mohamed123",
+  confirmPassword: "mohamed123",
+};
 
 export default function ProfileTemplate() {
+  const navigation = useNavigation();
   const [seed, setSeed] = useState(getRandomSeed());
- const navigation = useNavigation();
-  const [formData, setFormData] = useState<SignUpFormData>({
+
+  // ✅ Saved profile (source of truth)
+  const [profileData, setProfileData] = useState<SignUpFormData>({
+    ...INITIAL_PROFILE,
     imageUri: getAvatarUrl(seed),
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [originalData, setOriginalData] =
-    useState<SignUpFormData | null>(null);
+  // ✅ Editable copy
+  const [formData, setFormData] = useState<SignUpFormData>(profileData);
 
-  const avatarUrl = getAvatarUrl(seed);
+  const [isEditing, setIsEditing] = useState(false);
 
   const refreshAvatar = () => {
     if (!isEditing) return;
@@ -42,47 +47,42 @@ export default function ProfileTemplate() {
   };
 
   const startEditing = () => {
-    setOriginalData(formData);
+    setFormData(profileData); // reset form
     setIsEditing(true);
   };
 
   const cancelEditing = () => {
-    if (originalData) {
-      setFormData(originalData);
-    }
+    setFormData(profileData); // discard changes
     setIsEditing(false);
   };
 
   const saveChanges = () => {
-    console.log("Saved profile:", formData);
+    setProfileData(formData); // save locally
     setIsEditing(false);
-    // 👉 API call here
+    console.log("Saved profile:", formData);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.iconBackground} onPress={() => navigation.goBack()}>
-                  <Ionicons name='arrow-back' size={25} style={styles.icon}
-                            />
+      <TouchableOpacity
+        style={styles.iconBackground}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={25} style={styles.icon} />
       </TouchableOpacity>
+
       <Text style={styles.title}>Edit Profile</Text>
+
       {/* Avatar */}
-      <Image source={{ uri: avatarUrl }} style={styles.avatar} />
+      <Image source={{ uri: formData.imageUri }} style={styles.avatar} />
 
       <TouchableOpacity
-        style={[
-          styles.refreshButton,
-          !isEditing && { opacity: 0.4 },
-        ]}
+        style={[styles.refreshButton, !isEditing && { opacity: 0.4 }]}
         onPress={refreshAvatar}
-        activeOpacity={0.7}
         disabled={!isEditing}
       >
         <Ionicons name="refresh" size={22} color="#fff" />
-        
       </TouchableOpacity>
-
-      
 
       <EditProfileForm
         formData={formData}
@@ -95,6 +95,7 @@ export default function ProfileTemplate() {
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -167,7 +167,7 @@ return (
       showsVerticalScrollIndicator={false}
       contentContainerStyle={[
         styles.scrollContent,
-        { paddingBottom: 80 + insets.bottom }  // Adjust '80' to your bottom nav height (measure via debugger or estimate)
+        { paddingBottom: 80 + insets.bottom }  
       ]}
     >
      

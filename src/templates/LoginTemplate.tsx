@@ -14,12 +14,11 @@ import { FormData } from '../types/FormData';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '../types/navigation';
 
-import { auth } from '../utils/firebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const PRIMARY_GREEN = '#00582F';
 const SOFT_GREEN = '#E8F5E9';
-
+const STATIC_EMAIL = 'mohamed12bouaziz@gmail.com';
+const STATIC_PASSWORD = 'mohamed123';
 export default function LoginTemplate() {
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -28,22 +27,20 @@ export default function LoginTemplate() {
 
   const navigation = useNavigation<NavigationProp>();
 
-  // Firebase login
-  const handleLogin = async () => {
-    const { email, password } = formData;
+ const handleLogin = () => {
+  const { email, password } = formData;
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log('User logged in:', user);
-
-      // Navigate to Home after successful login
-      navigation.navigate('Home');
-    } catch (error: any) {
-      console.log('Login error:', error.message);
-      Alert.alert('Login Failed', error.message);
-    }
-  };
+  if (email == STATIC_EMAIL && password == STATIC_PASSWORD) {
+  
+    navigation.navigate('Home');
+  } else {
+  
+    Alert.alert(
+      'Login Failed',
+      'Either the email or the password are incorrect'
+    );
+  }
+};
 
   const handleForgotPassword = () => {
     console.log('Forgot password clicked');

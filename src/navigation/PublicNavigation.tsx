@@ -27,7 +27,7 @@ function PublicNavigation() {
     <PublicStack.Navigator 
       initialRouteName="Welcome"
       screenOptions={({ route, navigation }) => {
-        // Determine animation based on navigation direction
+      
         let animation: 'slide_from_left' | 'slide_from_right' | 'default' = 'slide_from_right';
         
         const state = navigation.getState();
@@ -36,8 +36,7 @@ function PublicNavigation() {
         if (routes.length >= 2) {
           const currentRoute = routes[routes.length - 1];
           const previousRoute = routes[routes.length - 2];
-          
-          // Check if both are tab screens
+    
           if (
             tabScreens.includes(currentRoute.name) && 
             tabScreens.includes(previousRoute.name)
@@ -45,7 +44,6 @@ function PublicNavigation() {
             const currentIndex = tabOrder[currentRoute.name as keyof typeof tabOrder];
             const previousIndex = tabOrder[previousRoute.name as keyof typeof tabOrder];
             
-            // Moving backwards in tab order (right to left)
             if (currentIndex < previousIndex) {
               animation = 'slide_from_left';
             } else {

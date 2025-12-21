@@ -23,13 +23,14 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function HomeTemplate() {
   const navigation = useNavigation<any>();
+  const [searchQuery, setSearchQuery] = useState('');
 const [location, setLocation] = useState('Fetching location...');
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [products, setProducts] = useState<Product[]>([
     {
       id: '1',
-      name: 'Cappuccino',
+      name: 'espresso',
       description: 'With Sugar',
       price: 50000,
       image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400',
@@ -47,7 +48,7 @@ const [location, setLocation] = useState('Fetching location...');
     },
     {
       id: '3',
-      name: 'Cappuccino',
+      name: 'lathe',
       description: 'With Sugar',
       price: 50000,
       image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400',
@@ -56,7 +57,7 @@ const [location, setLocation] = useState('Fetching location...');
     },
     {
       id: '4',
-      name: 'Cappuccino',
+      name: 'cream coffee',
       description: 'With Sugar',
       price: 50000,
       image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400',
@@ -165,8 +166,8 @@ const [location, setLocation] = useState('Fetching location...');
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setLocation(`Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`); // temporary
-        getAddressFromCoords(latitude, longitude); // fetch human-readable address
+        setLocation(`Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`); 
+        getAddressFromCoords(latitude, longitude);
       },
       (error) => {
         console.log('Location error:', error);
@@ -181,14 +182,22 @@ const [location, setLocation] = useState('Fetching location...');
   }, []);
 
 
-  // Filter products based on active category
   const filteredProducts = useMemo(() => {
-    if (!activeCategory || activeCategory === '') return products; // Show all if no category selected
-    return products.filter(product => product.category === activeCategory);
-  }, [products, activeCategory]);
+  return products.filter((product) => {
+    const matchesCategory =
+      !activeCategory || product.category === activeCategory;
+
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
+}, [products, activeCategory, searchQuery]);
+
 
   const handleCategoryPress = (categoryId: string) => {
-    // Toggle category: if clicking the active category, deactivate it
+   
     if (activeCategory === categoryId) {
       setActiveCategory('');
       console.log('Category deselected');
@@ -250,7 +259,11 @@ const [location, setLocation] = useState('Fetching location...');
         />
         {/* Search Bar */}
         <View style={styles.section}>
-          <SearchBar />
+         <SearchBar
+  value={searchQuery}
+  onChangeText={setSearchQuery}
+/>
+
         </View>
         {/* Categories */}
         <CategoryList
